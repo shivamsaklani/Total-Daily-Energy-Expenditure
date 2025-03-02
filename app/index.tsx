@@ -1,3 +1,4 @@
+import Button from '@/Component/Button';
 import '../global.css';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -21,14 +22,7 @@ export default function RootLayout() {
 
      
       <View className="absolute bottom-8 w-full items-center">
-        <TouchableOpacity
-          className="bg-accent px-6 py-4 rounded-full shadow shadow-20"
-          onPress={() => router.push("/onboardscreen")} 
-        >
-          <Text className="text-white text-lg font-semibold text-center">
-            Get Started
-          </Text>
-        </TouchableOpacity>
+       <Button title='Get Started' variant='primary' padding='lg' onClick={()=>router.push("/(onboard)/onboardscreen")}/>
       </View>
     </SafeAreaView>
   );
