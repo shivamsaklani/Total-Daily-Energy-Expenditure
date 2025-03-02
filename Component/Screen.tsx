@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
+import { Text,  View, StyleSheet } from "react-native";
 import Button from "./Button";
 import { Screenstyles } from "./styles";
 export default function Screen({
@@ -14,12 +14,6 @@ export default function Screen({
 }) {
   return (
     <View style={Screenstyles.container}>
-      {/* Back Button */}
-      <TouchableOpacity style={Screenstyles.backButton} onPress={() => console.log("Back pressed")}>
-        <Text>Back</Text>
-      </TouchableOpacity>
-
-      {/* Title Section */}
       <View style={Screenstyles.titleSection}>
         <Text style={Screenstyles.title}>{title}</Text>
         <Text style={Screenstyles.subtitle}>
@@ -27,11 +21,11 @@ export default function Screen({
         </Text>
       </View>
 
-      {/* Content */}
-      <View style={Screenstyles.content}>{children}</View>
+     
+      <View style={[Screenstyles.container,Screenstyles.gap]}>{children}</View>
 
-      {/* Next Button */}
-      <View style={Screenstyles.buttonContainer}>
+  
+      <View>
         <Button title={btntitle || "Next"} variant="primary" rounded="lg" onClick={onClick} />
       </View>
     </View>

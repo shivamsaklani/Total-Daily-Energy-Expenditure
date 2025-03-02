@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import Button from "@/Component/Button";
 import Screen from "@/Component/Screen";
 import Options from "@/Component/Options";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/GlobalState/userDetails";
-
+import { Screenstyles } from "@/Component/styles";
+import Selector from "@/Component/Selector";
+import Button from "@/Component/Button";
 type RootStackParamList = {
   screen1: { step: number };
   screen2: { step: number };
@@ -59,18 +60,12 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
 
       case 2:
         return (
-          <Screen onClick={clickNext} title="What is your Age?">
-            <Options
-              title="18-25"
-              onClick={() => handleSelection("age", 20)}
-              isSelected={user.age === 20}
-            />
-            <Options
-              title="26-35"
-              onClick={() => handleSelection("age", 30)}
-              isSelected={user.age === 30}
-            />
-          </Screen>
+          <Screen onClick={clickNext} title="Your Age">
+            <Selector 
+  values={Array.from({ length: 99 - 15 + 1 }, (_, i) => i + 15)} subheading="Years"
+  onSelect={(value) => handleSelection("age", value)} 
+/> 
+</Screen>
         );
 
       
@@ -88,14 +83,14 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
         )
         case 4:
           return(
-            <Screen onClick={clickNext} title="Enter your Weight">
-              <TextInput placeholder="Enter your Weight" />
+            <Screen onClick={clickNext} title="Your Weight in kgs">
+               <Selector values={Array.from({ length: 200 }, (_, i) => i + 1)} subheading="Kg" onSelect={(value)=>handleSelection("weight",value)}/>
             </Screen>
           )
         case 5:
           return(
-            <Screen onClick={clickNext} title="Enter your Height">
-              <TextInput placeholder="Enter your Height"/>
+            <Screen onClick={clickNext} title="Your Height in cm">
+              <Selector values={Array.from({ length: 300}, (_, i) => i + 1)} subheading="Cm" onSelect={(value)=>handleSelection("height",value)}/>
             </Screen>
           )
         case 6:
@@ -103,6 +98,9 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
             <Screen btntitle="Get Started" title="Summary">
               <Text style={styles.summaryText}>Gender: {user.gender}</Text>
               <Text style={styles.summaryText}>Age: {user.age}</Text>
+              <Text style={styles.summaryText}>Height {user.height}</Text>
+              <Text style={styles.summaryText}>Weight: {user.weight}</Text>
+              <Text style={styles.summaryText}>Excercise:{user.workout}</Text>
                   </Screen>
           );
         
@@ -116,7 +114,9 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {step > 1 && (
-          <Button title="Back" variant="secondary" padding="md" rounded="md" onClick={clickBack} />
+          <TouchableOpacity style={Screenstyles.backButton} onPress={clickBack}>
+                  <Button title="Back" />
+                </TouchableOpacity>
         )}
       {renderScreen()}
     </View>

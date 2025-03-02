@@ -11,7 +11,7 @@ export const optionStyles = StyleSheet.create({
     elevation: 3, // For Android shadow effect
   },
   selectedOption: {
-    backgroundColor: "#1D4ED8", // Primary color
+    backgroundColor: "#0e064b", // Primary color
   },
   unselectedOption: {
     backgroundColor: "white",
@@ -39,11 +39,6 @@ export const Screenstyles = StyleSheet.create({
       paddingVertical: 32,
     },
     backButton: {
-      position: "absolute",
-      top: 24,
-      left: 16,
-      padding: 8,
-      backgroundColor: "white",
       borderRadius: 50,
       shadowOpacity: 0.2,
       shadowRadius: 4,
@@ -61,6 +56,9 @@ export const Screenstyles = StyleSheet.create({
       fontSize: 16,
       color: "#6b7280",
       marginTop: 4,
+    },
+    gap:{
+      gap:40,
     },
     content: {
       flex: 1,
@@ -126,5 +124,6 @@ export const buttonStyles = StyleSheet.create({
       fontWeight: "600",
     },
   });
+
 
   
