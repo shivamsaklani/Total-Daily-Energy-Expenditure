@@ -39,11 +39,17 @@ export const Screenstyles = StyleSheet.create({
       paddingVertical: 32,
     },
     backButton: {
-      borderRadius: 50,
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 2 },
+      borderRadius: 100,
+  backgroundColor: "#9c9aad",
+  shadowOpacity: 0.2,
+  padding: 10,
+  shadowRadius: 5,
+  shadowOffset: { width: 0, height: 2 },
+  position:"absolute",
+  top: 0,
+  left: 10,
     },
+    
     titleSection: {
       alignItems: "center",
     },

@@ -4,9 +4,13 @@ export const userAtom = atom({
   key: "userAtom",
   default: {
     gender: "",
-    age: null,
+    age: 0,
     workout: "",
-    weight: "",
-    height: "",
+    weight: 0,
+    height: 0,
+    plan:{
+      currentkacl:0,
+      goalkacl:0,
+    },
   },
 });

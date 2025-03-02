@@ -11,13 +11,14 @@ type RootStackParamList = {
   screen4: { step: number };
   screen5: { step: number };
   screen6: { step: number };
+  screen7: { step: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const LayoutOnboard: React.FC = () => {
   return (
-     <RecoilRoot>
+
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="screen1" component={OnboardScreen} initialParams={{ step: 1 }} />
         <Stack.Screen name="screen2" component={OnboardScreen} initialParams={{ step: 2 }} />
@@ -25,8 +26,9 @@ const LayoutOnboard: React.FC = () => {
         <Stack.Screen name="screen4" component={OnboardScreen} initialParams={{ step: 4 }} />
         <Stack.Screen name="screen5" component={OnboardScreen} initialParams={{ step: 5 }} />
         <Stack.Screen name="screen6" component={OnboardScreen} initialParams={{ step: 6 }} />
+        <Stack.Screen name="screen7" component={OnboardScreen} initialParams={{ step: 7 }} />
       </Stack.Navigator>
-      </RecoilRoot>
+    
   );
 };
 

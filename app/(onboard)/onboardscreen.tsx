@@ -1,13 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Screen from "@/Component/Screen";
 import Options from "@/Component/Options";
 import { useRecoilState } from "recoil";
 import { userAtom } from "@/GlobalState/userDetails";
-import { Screenstyles } from "@/Component/styles";
 import Selector from "@/Component/Selector";
-import Button from "@/Component/Button";
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { useRouter } from "expo-router";
+import FindTDEE from "./TDEE_logic/TDEE";
 type RootStackParamList = {
   screen1: { step: number };
   screen2: { step: number };
@@ -15,20 +16,35 @@ type RootStackParamList = {
   screen4: { step: number };
   screen5: { step: number };
   screen6: { step: number };
+  screen7: { step: number };
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, keyof RootStackParamList>;
 
 const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
   const { step } = route.params;
-
+  const CurrentTDEE= FindTDEE();
   // User state to store responses
   const [user, setUser] = useRecoilState(userAtom);
 
-  // Function to update user responses
-  const handleSelection = (key: keyof typeof user, value: string | number) => {
-    setUser((prev) => ({ ...prev, [key]: value }));
+  // Function to update user entered values
+  const handleSelection = (key: keyof typeof user, value: any, currentValue?: number) => {
+    setUser((prev) => {
+      if (key === "plan") {
+        return {
+          ...prev,
+          plan: {
+            ...prev.plan,
+            goalkacl: value, 
+            currentkacl: currentValue ?? prev.plan.currentkacl, 
+          },
+        };
+      }
+      return { ...prev, [key]: value };
+    });
   };
+  
+  
 
   const clickNext = () => {
     navigation.navigate(`screen${step + 1}` as keyof RootStackParamList, { step: step + 1 });
@@ -41,6 +57,7 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
   };
 
   const renderScreen = () => {
+    const router=useRouter();
     switch (step) {
       case 1:
         return (
@@ -62,7 +79,7 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
         return (
           <Screen onClick={clickNext} title="Your Age">
             <Selector 
-  values={Array.from({ length: 99 - 15 + 1 }, (_, i) => i + 15)} subheading="Years"
+  values={Array.from({ length: 99 - 15 + 1 }, (_, i) => i + 15)} defaultValue={25} subheading="Years"
   onSelect={(value) => handleSelection("age", value)} 
 /> 
 </Screen>
@@ -84,25 +101,31 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
         case 4:
           return(
             <Screen onClick={clickNext} title="Your Weight in kgs">
-               <Selector values={Array.from({ length: 200 }, (_, i) => i + 1)} subheading="Kg" onSelect={(value)=>handleSelection("weight",value)}/>
+               <Selector values={Array.from({ length: 200 }, (_, i) => i + 1)} defaultValue={50} subheading="Kg" onSelect={(value)=>handleSelection("weight",value)}/>
             </Screen>
           )
         case 5:
           return(
             <Screen onClick={clickNext} title="Your Height in cm">
-              <Selector values={Array.from({ length: 300}, (_, i) => i + 1)} subheading="Cm" onSelect={(value)=>handleSelection("height",value)}/>
+              <Selector values={Array.from({ length: 300}, (_, i) => i + 1)} subheading="Cm" defaultValue={180} onSelect={(value)=>handleSelection("height",value)}/>
+            </Screen>
+          );
+          case 6:
+          return (
+            <Screen onClick={clickNext} btntitle="Select Goal"  title="Total Daily Engergy Expenditure">
+              <Text style={styles.summaryText}>Your Total Daily Engergy Expenditure(Approx)</Text>
+              <Text style={styles.summaryText}>{CurrentTDEE}</Text>
+              </Screen>
+          );
+        
+        case 7:
+          return(
+            <Screen btntitle="Start Journey" onClick={()=>router.push("/(Dashboard)/(home)/home")} title="Select Your Goal">
+              <Options title="Gain Weight" onClick={()=>handleSelection("plan",3000,4000)} isSelected={user.plan.goalkacl === 200}/>
+            <Options title="Loss Weight" onClick={()=>handleSelection("plan",3000,2000)} isSelected={user.plan.goalkacl ===300}/>
+            <Options title="Maintain Weight" onClick={()=>handleSelection("plan",3000,4000)} isSelected={user.plan.goalkacl ===800}/>
             </Screen>
           )
-        case 6:
-          return (
-            <Screen btntitle="Get Started" title="Summary">
-              <Text style={styles.summaryText}>Gender: {user.gender}</Text>
-              <Text style={styles.summaryText}>Age: {user.age}</Text>
-              <Text style={styles.summaryText}>Height {user.height}</Text>
-              <Text style={styles.summaryText}>Weight: {user.weight}</Text>
-              <Text style={styles.summaryText}>Excercise:{user.workout}</Text>
-                  </Screen>
-          );
         
 
 
@@ -114,19 +137,38 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {step > 1 && (
-          <TouchableOpacity style={Screenstyles.backButton} onPress={clickBack}>
-                  <Button title="Back" />
-                </TouchableOpacity>
-        )}
+        <TouchableOpacity style={styles.buttonContainer} onPress={clickBack}>
+          <Icon name="arrow-left" size={20} color="#0e064b" />
+        </TouchableOpacity>
+      )}
       {renderScreen()}
     </View>
   );
+  
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
   summaryText: { fontSize: 18, fontWeight: "bold", marginVertical: 10 },
-  buttonContainer: { flexDirection: "row", marginTop: 20, gap: 10 },
+  container: { 
+    flex: 1, 
+    flexDirection: "column", 
+    justifyContent: "flex-start",  
+    paddingHorizontal: 10, 
+  },
+  buttonContainer: { 
+    flexDirection: "row",
+    position:"absolute",
+    backgroundColor: "#9c9aad",
+    borderRadius: 25, 
+    height: 40, 
+    width: 40,
+    top:10,
+    left:10,
+    alignItems: "center", 
+    justifyContent: "center", 
+    elevation:10,
+    zIndex:10,
+  },
 });
 
 export default OnboardScreen; 
