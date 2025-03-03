@@ -1,7 +1,7 @@
 import { userAtom } from "@/GlobalState/userDetails"
 import { useRecoilValue } from "recoil"
 
-export default function FindTDEE():number |null{
+export default function FindTDEE(){
     const user = useRecoilValue(userAtom);
     // Coefficients based on gender
     const ageFactor: number = user.gender === "Male" ? 6.755 : 4.6756;
@@ -18,8 +18,19 @@ export default function FindTDEE():number |null{
    
     
     const BMR:number = baseBMR + (weightFactor * user.weight) + (heightFactor * user.height) - (ageFactor * user.age);
-    const TDEE:number = BMR*activityfactor[user.workout];
-    return TDEE;
+    const TDEE: number = BMR * (activityfactor[user.workout] || 1.2); 
+
+
+    const calorieTargets = {
+        maintain: Math.round(TDEE),
+        moderateFatLoss: Math.round(TDEE - 500),
+        moderateGain: Math.round(TDEE + 500), 
+    };
+
+    return {
+        TDEE: Math.round(TDEE),
+        ...calorieTargets
+    };
     
 
 }

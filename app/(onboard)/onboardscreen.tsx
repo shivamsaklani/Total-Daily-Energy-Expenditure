@@ -23,7 +23,7 @@ type Props = NativeStackScreenProps<RootStackParamList, keyof RootStackParamList
 
 const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
   const { step } = route.params;
-  const CurrentTDEE= FindTDEE();
+  const calorieData= FindTDEE();
   // User state to store responses
   const [user, setUser] = useRecoilState(userAtom);
 
@@ -114,17 +114,41 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
           return (
             <Screen onClick={clickNext} btntitle="Select Goal"  title="Total Daily Engergy Expenditure">
               <Text style={styles.summaryText}>Your Total Daily Engergy Expenditure(Approx)</Text>
-              <Text style={styles.summaryText}>{CurrentTDEE}</Text>
+              <Text style={styles.subtitle}>{calorieData.TDEE}</Text>
               </Screen>
           );
         
         case 7:
           return(
-            <Screen btntitle="Start Journey" onClick={()=>router.push("/(Dashboard)/(home)/home")} title="Select Your Goal">
-              <Options title="Gain Weight" onClick={()=>handleSelection("plan",3000,4000)} isSelected={user.plan.goalkacl === 200}/>
-            <Options title="Loss Weight" onClick={()=>handleSelection("plan",3000,2000)} isSelected={user.plan.goalkacl ===300}/>
-            <Options title="Maintain Weight" onClick={()=>handleSelection("plan",3000,4000)} isSelected={user.plan.goalkacl ===800}/>
-            </Screen>
+            <Screen 
+    btntitle="Start Journey" 
+    onClick={() => router.push("/(Dashboard)/home")} 
+    title="Select Your Goal"
+>
+    {calorieData && (
+        <>
+            <Options 
+                title="Gain Weight" 
+                subtitle={`( ${calorieData.moderateGain} kcal/day)`} 
+                onClick={() => handleSelection("plan", calorieData.moderateGain)} 
+                isSelected={user.plan.goalkacl === calorieData.moderateGain}
+            />
+            <Options 
+                title="Loss Weight" 
+                subtitle={`( ${calorieData.moderateFatLoss} kcal/day)`}   
+                onClick={() => handleSelection("plan", calorieData.moderateFatLoss)} 
+                isSelected={user.plan.goalkacl === calorieData.moderateFatLoss}
+            />
+            <Options 
+                title="Maintain Weight" 
+                subtitle={`( ${calorieData.maintain} kcal/day)`}  
+                onClick={() => handleSelection("plan",  calorieData.maintain)} 
+                isSelected={user.plan.goalkacl === calorieData.maintain}
+            />
+        </>
+    )}
+</Screen>
+
           )
         
 
@@ -169,6 +193,11 @@ const styles = StyleSheet.create({
     elevation:10,
     zIndex:10,
   },
+  subtitle:{
+    fontSize: 50,
+    textAlign:"center",
+    fontWeight: "800",
+  }
 });
 
 export default OnboardScreen; 
