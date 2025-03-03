@@ -1,50 +1,81 @@
-# Welcome to Total-Daily-Energy-Expenditure app 👋
+# Total-Daily-Energy-Expenditure (TDEE) App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to the **TDEE App** 👋
+This is a React Native application built with [Expo](https://expo.dev) that calculates a user's **Total Daily Energy Expenditure (TDEE)** based on their Basal Metabolic Rate (BMR) and activity level.
 
-## Get started
+To find Users TDEE we need calculate their BMR(BASAL Metabolic Rate)
 
-1. Install dependencies
+In this Approach I haved used Harris Benedict Equation for Calculating BMR 
 
-   ```bash
-   npm install
-   ```
+once We get BMR then TDEE can be Find as :
 
-2. Start the app
+TDEE = BMR * Activity Factor 
 
-   ```bash
-    npx expo start
-   ```
+Lightly Active	Light exercise 1–3 days per week	1.375
+Moderately Active	Moderate exercise 3–5 days per week	1.55
+Very Active	Hard exercise 6–7 days per week	1.725
 
-In the output, you'll find options to open the app in a
+## 🚀 Getting Started
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### **1. Clone the Repository**
+```bash
+git clone https://github.com/your-username/tdee-app.git
+cd tdee-app
+```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### **2. Install Dependencies**
+```bash
+npm install
+```
 
-## Get a fresh project
+### **3. Start the Development Server**
+```bash
+npx expo start
+```
 
-When you're ready, run:
+### **4. Open the App**
+You can open the app using one of the following methods:
+- **Android Emulator**: Requires Android Studio
+- **iOS Simulator**: Requires macOS and Xcode
+- **Expo Go**: Scan the QR code in the Expo Go app (Android & iOS)
+- **Development Build**: Use a custom development build for better debugging
 
+## 🏗️ Project Structure
+The project follows a **file-based routing** structure provided by Expo.
+
+```
+/tdee-app
+│── app/                  # Main application directory
+│   ├── screens/          # All screen components (e.g., Home, TDEE Calculator)
+│   ├── components/       # Reusable UI components (e.g., Buttons, Cards)
+│   ├── utils/            # Utility functions (e.g., BMR calculations)
+│   ├── GlobalState/      # Recoil state management files
+│   ├── assets/           # Images, icons, and static assets
+│   ├── router/           # File-based routing setup
+│   ├── index.js          # Entry point
+│── package.json          # Project dependencies
+│── README.md             # Project documentation
+│── app.config.js         # Expo configuration
+│── .gitignore            # Git ignore file
+```
+
+## 🛠️ Reset Project
+To get a fresh project setup, run:
 ```bash
 npm run reset-project
 ```
+This will move the starter code to the `app-example` directory and create a new `app/` directory for fresh development.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 📖 Learn More
+Check out the following resources to dive deeper into Expo and React Native:
+- [Expo Documentation](https://docs.expo.dev/)
+- [React Native Documentation](https://reactnative.dev/)
+- [File-based Routing in Expo](https://docs.expo.dev/router/introduction/)
 
-## Learn more
+## 🤝 Join the Community
+- **GitHub**: [Expo on GitHub](https://github.com/expo/expo)
+- **Discord**: [Expo Community](https://chat.expo.dev)
 
-To learn more about developing your project with Expo, look at the following resources:
+---
+### 🚀 Happy Coding! 🎯
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

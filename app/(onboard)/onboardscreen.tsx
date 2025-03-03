@@ -89,9 +89,9 @@ const OnboardScreen: React.FC<Props> = ({ route, navigation }) => {
       case 3:
         return(
           <Screen onClick={clickNext} title="Daily Work out">
-            <Options title="Intensive(4-5 hours)" onClick={()=>handleSelection("workout","Intensive")} isSelected={user.workout ==="Intensive"}/>
-            <Options title="Moderate(1-2 hours)" onClick={()=>handleSelection("workout","Moderate")} isSelected={user.workout ==="Moderate"}/>
-            <Options title="Less than 30 minutes" onClick={()=>handleSelection("workout","Less")} isSelected={user.workout ==="Less"}/>
+            <Options title="Light exercise" subtitle="1–3 days per week" onClick={()=>handleSelection("workout","Intensive")} isSelected={user.workout ==="Intensive"}/>
+            <Options title="Moderate exercise" subtitle="3–5 days per week" onClick={()=>handleSelection("workout","Moderate")} isSelected={user.workout ==="Moderate"}/>
+            <Options title="Hard exercise" subtitle="6–7 days per week" onClick={()=>handleSelection("workout","Less")} isSelected={user.workout ==="Less"}/>
             <Options title="No Excercise" onClick={()=>handleSelection("workout","NoExcercise")} isSelected={user.workout ==="NoExcercise"}/>
 
 
